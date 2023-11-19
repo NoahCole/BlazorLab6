@@ -1,0 +1,45 @@
+﻿@page "/list-borrowed-books"
+
+<h3>List Borrowed Books</h3>
+
+@code {
+    
+    public class Book
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+    }
+
+    
+    List<Book> borrowedBooks;
+
+  
+    protected override void OnInitialized()
+    {
+        borrowedBooks = new List<Book>
+        {
+            new Book { Title = "Book1", Author = "Author1" },
+            new Book { Title = "Book2", Author = "Author2" },
+            
+        };
+
+        base.OnInitialized();
+    }
+}
+
+
+@if (borrowedBooks != null && borrowedBooks.Any())
+{
+    <ul>
+        @foreach (var entry in borrowedBooks)
+        {
+            <li>@entry.Title by @entry.Author</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No books borrowed.</p>
+}
+
+

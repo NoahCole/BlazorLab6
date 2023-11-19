@@ -1,0 +1,51 @@
+﻿@page "/borrow-book"
+
+<h3>Borrow Book</h3>
+
+@code {
+    public class Book
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public bool IsBorrowed { get; set; }
+    }
+
+    List<Book> books = new List<Book>
+    {
+        new Book { Title = "Book1", Author = "Author1" },
+        new Book { Title = "Book2", Author = "Author2" },
+        
+    };
+
+    void BorrowSelectedBook(Book book)
+    {
+        if (!book.IsBorrowed)
+        {
+            book.IsBorrowed = true;
+            
+            System.Console.WriteLine($"Book '{book.Title}' by {book.Author} has been borrowed.");
+        }
+        else
+        {
+            System.Console.WriteLine($"Book '{book.Title}' by {book.Author} is already borrowed.");
+        }
+    }
+}
+
+@if (books != null && books.Any())
+{
+    <ul>
+        @foreach (var book in books)
+        {
+            <li>
+                @book.Title by @book.Author
+                <button @onclick="@(e => BorrowSelectedBook(book))">Borrow</button>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No books available.</p>
+}
+

@@ -1,0 +1,59 @@
+﻿@page "/manage-books"
+
+<h3>Manage Books</h3>
+
+@code {
+    
+    public class Book
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        
+    }
+
+    
+    List<Book> books;
+
+    
+    List<BookGroup> bookGroups;
+
+    protected override void OnInitialized()
+    {
+        
+        books = new List<Book>
+        {
+            new Book { Id = 1, Name = "Book1" },
+            new Book { Id = 2, Name = "Book2" },
+            
+        };
+
+        
+        bookGroups = books.GroupBy(b => b.Id)
+                          .Select(bookGroup => new BookGroup { Book = bookGroup.First(), Count = bookGroup.Count() })
+                          .ToList();
+
+        base.OnInitialized();
+    }
+
+    public class BookGroup
+    {
+        public Book Book { get; set; }
+        public int Count { get; set; }
+    }
+}
+
+
+@if (bookGroups != null && bookGroups.Any())
+{
+    <ul>
+        @foreach (var bookGroup in bookGroups)
+        {
+            <li>@bookGroup.Book.Id - @bookGroup.Book.Name (Count: @bookGroup.Count)</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No books available.</p>
+}
+
